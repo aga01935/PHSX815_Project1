@@ -16,7 +16,7 @@ class Random:
         self.m_v = np.uint64(4101842887655102017)
         self.m_w = np.uint64(1)
         self.m_u = np.uint64(1)
-        
+
         self.m_u = np.uint64(self.seed) ^ self.m_v
         self.int64()
         self.m_v = self.m_u
@@ -41,30 +41,53 @@ class Random:
     # function returns a random floating point number between (0, 1) (uniform)
     def rand(self):
         return 5.42101086242752217E-20 * self.int64()
+# function returns random integer between 1 and 100
+    def myrandint(self,min=1., max=100.):
+        ran1 = self.rand()
+        ran2 = self.rand()*100
+        Inti = 100*ran1%ran2
+        print (min, max , Inti)
+        while Inti>max or Inti<min :
+            ran1 = self.rand()
+            ran2 = self.rand()
+            #print (Inti)
+        return int(Inti)
+    def parabolic_dist(self,temp=30.):
+        room_temp = 30
+        low_temp = -40.0
+        high_temp= 100.
 
-    # function returns a random integer (0 or 1) according to a Bernoulli distr.
-    def Bernoulli(self, p=0.5):
-        if p < 0. or p > 1.:
-            return 1
-        
-        R = self.rand()
+        if temp < -40.:
+            print("temperature is too low  \n changing the  value of a to  %f " % low_temp )
+        if temp > 100.:
+            print("temperature is too low  \n changing the  value of a to  %f " % high_temp )
+            temp = low_temp
+        change_temp = abs(temp-room_temp)
+        Myrand = float(self.rand())
+        #Myrand = self.myrandint(1,10)
+        while Myrand <= 0.:
+            Myrand = float(self.rand())
+            #Myrand = self.myrandint(1,10)
+            #hisrand = float(self.rand())
 
-        if R < p:
-            return 1
-        else:
-            return 0
+        X= np.sqrt(Myrand/change_temp)
+        #print (X)
+        return X
+    def linear_dist(self,temp=30.):
+        room_temp = 30
+        low_temp = -40.0
+        high_temp= 100.
 
-    # function returns a random double (0 to infty) according to an exponential distribution
-    def Exponential(self, beta=1.):
-      # make sure beta is consistent with an exponential
-      if beta <= 0.:
-        beta = 1.
-
-      R = self.rand();
-
-      while R <= 0.:
-        R = self.rand()
-
-      X = -math.log(R)/beta
-
-      return X
+        if temp < -40.:
+            print("temperature is too low  \n changing the  value of a to  %f " % low_temp )
+        if temp > 100.:
+            print("temperature is too low  \n changing the  value of a to  %f " % high_temp )
+            temp = low_temp
+        change_temp = abs(temp-room_temp)
+        NewRand = float(self.rand())
+        #NewRand = self.myrandint(1,10)
+        while NewRand<=0.:
+            NewRand=float(self.rand())
+            #NewRand = self.myrandint(1,10)
+        y = float(NewRand/change_temp)
+        return y
